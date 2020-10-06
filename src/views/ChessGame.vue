@@ -1,16 +1,15 @@
 <template>
   <div class="container">
     <h3>{{ whiteCurrentTurn ? 'white turn' : 'black turn' }}</h3>
-    <div class='board'>
-      <div v-for="(row,x) of board">
-        <div v-for="(square,y) of row">
+    <div class="board">
+      <div v-for="(row, x) of board" :key="x">
+        <div v-for="(square, y) of row" :key="y">
           <div
               :class="!square.mark ? ((x+y)%2 === 0 ? 'white':'green') : ((x+y)%2 === 0 ? 'grab':'darkGrab' )"
               :style="`width: 5rem; height:5rem;`"
           >
             <img v-if="square.piece"
                  :src="`https://images.chesscomfiles.com/chess-themes/pieces/neo/100/${square.piece.color}${square.piece.letter}.png`"
-                 :style="`width: 5rem; height:5rem;`"
                  @click="grab(square)"
                  class="piece"
                  alt="piece"
@@ -19,9 +18,7 @@
                  :class="['square-can-go', !square.mark ? ((x+y)%2 === 0 ? 'white':'green') : ((x+y)%2 === 0 ? 'grab':'darkGrab' )]"
                  @click="move(square)"
             >
-              <div
-                  id="circle"
-              />
+              <div id="circle"/>
             </div>
           </div>
         </div>
@@ -119,6 +116,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .board {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -148,6 +146,7 @@ export default {
 .lastPosition {
   background-color: #b6ad2a;
 }
+
 .square-can-go {
   width: 5rem;
   display: flex;
@@ -155,8 +154,11 @@ export default {
   align-items: center;
   height: 5rem;
 }
+
 .piece {
   cursor: grab;
+  width: 5rem;
+  height: 5rem;
 }
 
 #circle {
@@ -165,5 +167,4 @@ export default {
   background: #bfbfa8;
   border-radius: 50%;
 }
-
 </style>
