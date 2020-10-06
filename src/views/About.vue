@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <h3>{{whiteCurrentTurn?'white turn':'black turn'}}</h3>
   <div class='board' style="width: 40rem;">
     <div v-for="(row,x) of board">
       <div v-for="(square,y) of row">
@@ -25,7 +27,7 @@
       </div>
     </div>
   </div>
-
+  </div>
 </template>
 
 <script>
@@ -39,14 +41,25 @@ export default {
     whiteSquareMarked : [],
     blackSquareMarked : [],
     board: [],
-    canGoArray: []
+    canGoArray: [],
+    whiteCurrentTurn: true
   }),
   methods:{
     grab(square){
+      let isItWhite = square.piece.color === 'w'
       if (square.canGo){
+        if (this.whiteCurrentTurn === isItWhite) return
         this.move(square)
         this.cantGo()
+        return
       }
+      if (square.mark){
+        this.unmarkTheSquare()
+        this.cantGo()
+        this.$forceUpdate()
+        return
+      }
+      if (this.whiteCurrentTurn !== isItWhite) return
       this.markTheSquare(square)
       this.whereCanGo(square)
       this.$forceUpdate()
@@ -89,6 +102,7 @@ export default {
       square.piece.start = false
       this.whiteSquareMarked[0].piece = undefined
       this.cantGo()
+      this.whiteCurrentTurn = !this.whiteCurrentTurn
     },
   },
   created() {
