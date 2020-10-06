@@ -16,8 +16,7 @@
                  alt="piece"
             />
             <div v-if="square.canGo"
-                 :class="!square.mark ? ((x+y)%2 === 0 ? 'white':'green') : ((x+y)%2 === 0 ? 'grab':'darkGrab' )"
-                 :style="`width: 5rem; height:5rem;`"
+                 :class="['square-can-go', !square.mark ? ((x+y)%2 === 0 ? 'white':'green') : ((x+y)%2 === 0 ? 'grab':'darkGrab' )]"
                  @click="move(square)"
             >
               <div
@@ -149,7 +148,13 @@ export default {
 .lastPosition {
   background-color: #b6ad2a;
 }
-
+.square-can-go {
+  width: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+}
 .piece {
   cursor: grab;
 }
