@@ -5,7 +5,7 @@
     <div v-for="(row,x) of board">
       <div v-for="(square,y) of row">
         <div
-            :class="!square.mark ? ((x+y)%2 === 0 ? 'white':'green') : ((x+y)%2 === 0 ? 'grab':'darkGrab' )"
+            :class="square.canGo && square.piece ? 'red' : !square.mark ? ((x+y)%2 === 0 ? 'white':'green') : ((x+y)%2 === 0 ? 'grab':'darkGrab' )"
             :style="`width: 5rem; height:5rem;`"
         >
           <img v-if="square.piece" :src="`https://images.chesscomfiles.com/chess-themes/pieces/neo/100/${square.piece.color}${square.piece.letter}.png`"
@@ -36,6 +36,8 @@ import pawn from "@/movement/pawn";
 import diagonally from "@/movement/diagonally";
 import straight from "@/movement/straight";
 import queen from "@/movement/queen";
+import knight from "@/movement/knight";
+import king from "@/movement/king";
 
 export default {
   data: () => ({
@@ -91,8 +93,14 @@ export default {
       if (movement[0] === "straight"){
         responseArray = straight.straightCanGoTO(square, this.board)
       }
+      if (movement[0] === 'jumps'){
+        responseArray = knight.knightCanGoTO(square, this.board)
+      }
       if (movement.length === 2){
         responseArray = queen.queenCanGoTO(square, this.board)
+      }
+      if (movement[0] === 'king'){
+        responseArray = king.kingCanGoTO(square, this.board)
       }
       this.canGoArray = responseArray[0]
       this.board = responseArray[1]
@@ -123,6 +131,9 @@ export default {
 .board{
   display: grid;
   grid-template-columns: repeat(8, 1fr);
+}
+.red{
+  background-color: red;
 }
 .white{
   background-color: #ede9ca;

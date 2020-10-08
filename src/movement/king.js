@@ -1,9 +1,10 @@
 export default {
-    queenCanGoTO
+   kingCanGoTO
 }
 let canGoArray = []
 
-function queenCanGoTO(square,board){
+function kingCanGoTO(square,board){
+    debugger
     let color = square.piece.color
     for (let i = -1; i<2; i++){
         for (let j = -1; j<2; j++){
@@ -27,5 +28,5 @@ function checkSideSquare(square,board,i,j, color){
     }
     sideSquare.canGo = true
     canGoArray.push(sideSquare)
-    checkSideSquare(sideSquare,board,i,j)
+   return
 }
