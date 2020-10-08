@@ -1,5 +1,5 @@
 import pieces from "@/tools/pieces";
-import chessGame from "../views/About"
+
 
 export default {
     setTheBoard,

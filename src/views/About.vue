@@ -31,10 +31,11 @@
 </template>
 
 <script>
-import pieces from "@/tools/pieces";
 import setTheBoard from "@/tools/setTheBoard";
 import pawn from "@/movement/pawn";
 import diagonally from "@/movement/diagonally";
+import straight from "@/movement/straight";
+import queen from "@/movement/queen";
 
 export default {
   data: () => ({
@@ -86,6 +87,12 @@ export default {
       }
       if (movement[0] === 'diagonally'){
         responseArray = diagonally.diagonallyCanGoTO(square, this.board)
+      }
+      if (movement[0] === "straight"){
+        responseArray = straight.straightCanGoTO(square, this.board)
+      }
+      if (movement.length === 2){
+        responseArray = queen.queenCanGoTO(square, this.board)
       }
       this.canGoArray = responseArray[0]
       this.board = responseArray[1]
