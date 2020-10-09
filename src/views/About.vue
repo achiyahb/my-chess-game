@@ -45,7 +45,8 @@ export default {
     blackSquareMarked : [],
     board: [],
     canGoArray: [],
-    whiteCurrentTurn: true
+    whiteCurrentTurn: true,
+    enPassantSquare: {}
   }),
   methods:{
     grab(square){
@@ -114,8 +115,22 @@ export default {
       square.mark = true
       this.whiteSquareMarked.push(square)
       square.piece = this.whiteSquareMarked[0].piece
-      square.piece.start = false
+      if (square.piece.letter === 'p') {
+        let i = square.piece.color === 'w' ? -1 : 1
+        if (square.enPassant){
+          this.board[square.x][square.y - i].piece = undefined
+        }
+        if (this.whiteSquareMarked[0].y + 2*i === square.y) {
+          this.board[square.x][square.y - i].enPassant = true
+          this.enPassantSquare = this.board[square.x][square.y - i]
+        }  else {
+          this.enPassantSquare.enPassant = false
+        }
+      } else {
+        this.enPassantSquare.enPassant = false
+      }
       this.whiteSquareMarked[0].piece = undefined
+
       this.cantGo()
       this.whiteCurrentTurn = !this.whiteCurrentTurn
     },
