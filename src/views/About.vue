@@ -85,7 +85,7 @@ export default {
       let i = piece.color === 'w' ? -1 : 1
       let movement = piece.movement
       if (movement[0] === "forward"){
-        responseArray = pawn.pawnCanGoTO(square, i, this.board)
+        responseArray = pawn.pawnCanGoTO(square, i, this.board, piece.color)
       }
       if (movement[0] === 'diagonally'){
         responseArray = diagonally.diagonallyCanGoTO(square, this.board)
