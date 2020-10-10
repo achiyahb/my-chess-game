@@ -1,5 +1,6 @@
 export default {
-    pawnCanGoTO
+    pawnCanGoTO,
+    enPassantMove
 }
 let canGoArray = []
 function pawnCanGoTO(square, i,board, pieceColor){
@@ -28,3 +29,15 @@ function pawnCanGoTO(square, i,board, pieceColor){
     return [canGoArray,board]
 }
 
+function enPassantMove(square, self){
+    let i = square.piece.color === 'w' ? -1 : 1
+    if (square.enPassant){
+        self.board[square.x][square.y - i].piece = undefined
+    }
+    if (self.whiteSquareMarked[0].y + 2*i === square.y) {
+        self.board[square.x][square.y - i].enPassant = true
+        self.enPassantSquare = self.board[square.x][square.y - i]
+    }  else {
+        self.enPassantSquare.enPassant = false
+    }
+}

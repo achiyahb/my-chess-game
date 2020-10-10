@@ -8,7 +8,7 @@
             :class="square.canGo && square.piece ? 'red' : !square.mark ? ((x+y)%2 === 0 ? 'white':'green') : ((x+y)%2 === 0 ? 'grab':'darkGrab' )"
             :style="`width: 5rem; height:5rem;`"
         >
-          <img v-if="square.piece" :src="`https://images.chesscomfiles.com/chess-themes/pieces/neo/100/${square.piece.color}${square.piece.letter}.png`"
+          <img v-if="square.piece" :src="`https://images.chesscomfiles.com/chess-themes/pieces/neo/100/${square.piece.color}${square.piece.letterName}.png`"
                :style="`width: 5rem; height:5rem;`"
                @click="grab(square)"
                class="piece"
@@ -84,23 +84,23 @@ export default {
       this.cantGo()
       let piece = square.piece
       let i = piece.color === 'w' ? -1 : 1
-      let movement = piece.movement
-      if (movement[0] === "forward"){
+      let letterName = piece.letterName
+      if (letterName === "p"){
         responseArray = pawn.pawnCanGoTO(square, i, this.board, piece.color)
       }
-      if (movement[0] === 'diagonally'){
+      if (letterName === 'b'){
         responseArray = diagonally.diagonallyCanGoTO(square, this.board)
       }
-      if (movement[0] === "straight"){
+      if (letterName === "r"){
         responseArray = straight.straightCanGoTO(square, this.board)
       }
-      if (movement[0] === 'jumps'){
+      if (letterName === 'n'){
         responseArray = knight.knightCanGoTO(square, this.board)
       }
-      if (movement.length === 2){
+      if (letterName === 'q'){
         responseArray = queen.queenCanGoTO(square, this.board)
       }
-      if (movement[0] === 'king'){
+      if (letterName === 'k'){
         responseArray = king.kingCanGoTO(square, this.board)
       }
       this.canGoArray = responseArray[0]
@@ -115,17 +115,9 @@ export default {
       square.mark = true
       this.whiteSquareMarked.push(square)
       square.piece = this.whiteSquareMarked[0].piece
-      if (square.piece.letter === 'p') {
-        let i = square.piece.color === 'w' ? -1 : 1
-        if (square.enPassant){
-          this.board[square.x][square.y - i].piece = undefined
-        }
-        if (this.whiteSquareMarked[0].y + 2*i === square.y) {
-          this.board[square.x][square.y - i].enPassant = true
-          this.enPassantSquare = this.board[square.x][square.y - i]
-        }  else {
-          this.enPassantSquare.enPassant = false
-        }
+      if (square.piece.letterName === 'p') {
+        const self = this
+        pawn.enPassantMove(square, self)
       } else {
         this.enPassantSquare.enPassant = false
       }
