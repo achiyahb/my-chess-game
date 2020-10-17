@@ -38,6 +38,7 @@ import straight from "@/movement/straight";
 import queen from "@/movement/queen";
 import knight from "@/movement/knight";
 import king from "@/movement/king";
+import checkThreatning from "@/tools/checkThreatning";
 
 export default {
   data: () => ({
@@ -78,6 +79,9 @@ export default {
         this.whiteSquareMarked[0].mark = false
         this.whiteSquareMarked.shift()
       }
+    },
+    howThreatOnEachSquare(){
+
     },
     whereCanGo(square){
       let responseArray
@@ -125,11 +129,13 @@ export default {
 
       this.cantGo()
       this.whiteCurrentTurn = !this.whiteCurrentTurn
+      checkThreatning.checkHowThreatOnEachSquare(this.board)
     },
   },
   created() {
    this.board = setTheBoard.setTheBoard()
     console.log(this.board)
+    checkThreatning.checkHowThreatOnEachSquare(this.board)
   }
 }
 </script>
