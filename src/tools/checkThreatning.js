@@ -1,23 +1,30 @@
 export default {
     checkHowThreatOnEachSquare,
 }
-let counterDistance = 0
+let start = true
+let knightSquaresToCheck = []
 
 function checkHowThreatOnEachSquare(board){
+    knightSquaresToCheck = []
     for (let x = 0; x < 8; x++) {
         for (let y = 0; y < 8; y++) {
             let square = board[x][y]
+            if (square.piece && square.piece.letterName === 'n'){
+                knightSquaresToCheck.push(square)
+            }
             square.threatBy = []
             straightCheck(square,board)
             diagonallyCheck(square,board)
         }
     }
+    console.log(knightSquaresToCheck)
 }
 
 function straightCheck(square,board){
-    let piecesToCheck = ['r','q']
+    let piecesToCheck = ['r','q','k']
     for (let i = -1; i<2; i+=2){
         for (let j = 0; j<2; j++){
+            start = true
             let a = j === 0 ? i : 0
             let b = j === 1 ? i : 0
             checkSideSquare(square,board, a,b, piecesToCheck,square)
@@ -25,9 +32,10 @@ function straightCheck(square,board){
     }
 }
 function diagonallyCheck(square,board){
-    let piecesToCheck = ['b','q']
+    let piecesToCheck = ['b','q','k']
     for (let i = -1; i<2; i+=2){
         for (let j = -1; j<2; j+=2){
+            start = true
             checkSideSquare(square,board, i,j, piecesToCheck,square)
         }
     }
@@ -47,6 +55,10 @@ function checkSideSquare(square,board,i,j, piecesToCheck,checkSquare){
             checkSquare.threatBy.push(threatenPiece)
         }
     } else {
+        if(start){
+            start = false
+            piecesToCheck.pop()
+        }
         checkSideSquare(sideSquare,board,i,j,piecesToCheck,checkSquare)
     }
 }
