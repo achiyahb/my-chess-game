@@ -4,6 +4,7 @@ export default {
 let start = true
 let knightSquaresToCheck = []
 
+
 function checkHowThreatOnEachSquare(board){
     knightSquaresToCheck = []
     for (let x = 0; x < 8; x++) {
@@ -17,16 +18,16 @@ function checkHowThreatOnEachSquare(board){
             diagonallyCheck(square,board)
         }
     }
-    console.log(knightSquaresToCheck)
     knightSquaresToCheck.forEach(square => {
         knightCheck(square, board)
     })
+
 }
 
 function straightCheck(square,board){
-    let piecesToCheck = ['r','q','k']
     for (let i = -1; i<2; i+=2){
         for (let j = 0; j<2; j++){
+            let piecesToCheck = ['r','q','k']
             start = true
             let a = j === 0 ? i : 0
             let b = j === 1 ? i : 0
@@ -35,9 +36,9 @@ function straightCheck(square,board){
     }
 }
 function diagonallyCheck(square,board){
-    let piecesToCheck = ['b','q','k']
     for (let i = -1; i<2; i+=2){
         for (let j = -1; j<2; j+=2){
+            let piecesToCheck = ['b','q','k']
             start = true
             checkSideSquare(square,board, i,j, piecesToCheck,square)
         }
@@ -86,4 +87,7 @@ function declareOnThreaten(threateningSquare,threatenedSquare){
         locationY: threateningSquare.y
     }
     threatenedSquare.threatBy.push(threatenPiece)
+    if (threatenedSquare.piece && threatenedSquare.piece.letterName === 'k' && threatenedSquare.piece.color !== threateningSquare.piece.color){
+        console.log('check!')
+    }
 }
