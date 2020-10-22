@@ -5,6 +5,7 @@
     <div v-for="(row,x) of board">
       <div v-for="(square,y) of row">
         <div
+            :id="`${square.boardX}${square.boardY}`"
             :class="square.canGo && square.piece ? 'red' : !square.mark ? ((x+y)%2 === 0 ? 'white':'green') : ((x+y)%2 === 0 ? 'grab':'darkGrab' )"
             :style="`width: 5rem; height:5rem;`"
         >
